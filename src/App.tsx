@@ -350,10 +350,10 @@ const certificates = [
       <div className="pointer-events-none fixed bottom-10 right-10 -z-10 h-72 w-72 rounded-full bg-fuchsia-400/20 blur-3xl animate-soft-pulse" />
 
       <header
-        className={`fixed top-0 z-50 w-full border-b backdrop-blur-xl ${
+        className={`fixed top-0 z-50 w-full border-b ${
           dark
-            ? "border-pink-300/20 bg-[#12070d]/75"
-            : "border-pink-200/80 bg-[#fff7fb]/75"
+            ? "bg-[#12070d] border-pink-300/20"
+            : "bg-[#fff7fb] border-pink-200"
         }`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
@@ -545,16 +545,16 @@ const certificates = [
         <section id="skills" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Skills" title="Tools & Tech Stack" />
           <Card dark={dark}>
-<div className="skill-scroll flex gap-3 overflow-x-auto pb-3 md:flex-wrap md:overflow-visible">
-  {skills.map((skill) => (
-    <span
-      key={skill}
-      className={`shrink-0 rounded-full border px-4 py-2 text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
-    >
-      {skill}
-    </span>
-  ))}
-</div>
+          <div className="skill-scroll flex gap-3 overflow-x-auto pb-3 md:flex-wrap md:overflow-visible">
+              {skills.map((skill) => (
+                <span
+                  key={skill}
+                  className={`shrink-0 rounded-full border px-4 py-2 text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
           </Card>
         </section>
 
