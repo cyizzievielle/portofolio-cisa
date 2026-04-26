@@ -818,19 +818,20 @@ const certificates = [
       </main>
 {selectedCert && (
   <div
-    onPointerDown={() => setSelectedCert(null)}
-    className="fixed inset-0 z-[9999] flex cursor-pointer items-center justify-center bg-black/75 px-4 backdrop-blur-sm"
+    onClick={() => setSelectedCert(null)}
+    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-3 backdrop-blur-sm"
   >
     <div
-      className={`relative max-h-[92vh] w-full max-w-5xl overflow-auto rounded-[30px] border p-4 shadow-[0_30px_100px_rgba(236,72,153,0.35)] ${
+      className={`relative w-full max-w-5xl overflow-hidden rounded-[28px] border shadow-[0_30px_100px_rgba(236,72,153,0.35)] ${
         dark
           ? "border-pink-300/20 bg-[#1a0b12]"
           : "border-pink-200 bg-white"
       }`}
     >
       <button
+        type="button"
         onClick={() => setSelectedCert(null)}
-        className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-pink-500 font-bold text-white shadow-lg"
+        className="absolute right-3 top-3 z-20 grid h-10 w-10 place-items-center rounded-full bg-pink-500 font-bold text-white shadow-lg"
       >
         ✕
       </button>
@@ -838,10 +839,10 @@ const certificates = [
       <img
         src={selectedCert.image}
         alt={selectedCert.title}
-        className="max-h-[72vh] w-full rounded-2xl object-contain"
+        className="h-auto max-h-[88vh] w-full object-contain"
       />
 
-      <div className="p-4">
+      <div className="hidden p-5 sm:block">
         <h3 className="text-2xl font-extrabold text-pink-500">
           {selectedCert.title}
         </h3>
