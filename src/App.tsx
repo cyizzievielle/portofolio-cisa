@@ -9,36 +9,33 @@ type CardProps = {
 function Card({ children, dark, className = "" }: CardProps) {
   return (
     <div
-      className={`group relative overflow-hidden rounded-[28px] border p-6 transition-all duration-300 hover:-translate-y-2 ${
+      className={`group relative overflow-hidden rounded-[30px] border p-6 transition-all duration-500 hover:-translate-y-3 hover:scale-[1.015] ${
         dark
-          ? "border-pink-300/20 bg-[#220f19]/80 shadow-[0_25px_80px_rgba(255,79,164,0.12)]"
-          : "border-pink-200/80 bg-white/75 shadow-[0_25px_80px_rgba(232,121,176,0.24)]"
+          ? "border-pink-300/20 bg-[#220f19]/90 shadow-[0_25px_80px_rgba(255,79,164,0.16)] hover:shadow-[0_35px_110px_rgba(255,79,164,0.28)]"
+          : "border-pink-200/80 bg-white/85 shadow-[0_25px_80px_rgba(232,121,176,0.26)] hover:shadow-[0_35px_110px_rgba(232,121,176,0.42)]"
       } ${className}`}
     >
-      <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-pink-400/20 blur-3xl transition duration-300 group-hover:bg-pink-400/35" />
-      {children}
+      <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-pink-400/25 blur-3xl transition duration-500 group-hover:scale-125 group-hover:bg-pink-400/40" />
+      <div className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 transition group-hover:animate-[shineMove_1s_ease] group-hover:opacity-100" />
+      <div className="relative z-10">{children}</div>
     </div>
   );
 }
 
-function SectionTitle({
-  label,
-  title,
-}: {
-  label: string;
-  title: string;
-}) {
+function SectionTitle({ label, title }: { label: string; title: string }) {
   return (
-    <div className="mb-10 text-center animate-fade-up">
-      <span className="text-xs font-extrabold uppercase tracking-[0.3em] text-pink-500">
+    <div className="mb-12 text-center">
+      <span className="inline-flex rounded-full border border-pink-300/40 bg-pink-100/60 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.3em] text-pink-500 shadow-[0_10px_35px_rgba(236,72,153,0.15)]">
         {label}
       </span>
-      <h2 className="mt-2 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-        {title}
+
+      <h2 className="mt-5 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+        <span className="bg-gradient-to-r from-pink-400 via-pink-500 to-fuchsia-500 bg-clip-text text-transparent">
+          {title}
+        </span>
       </h2>
     </div>
-  );
-}
+  );}
 
 export default function App() {
   const [dark, setDark] = useState(false);
@@ -591,9 +588,7 @@ const certificates = [
         <div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
 
 <section id="services" className="reveal mx-auto max-w-6xl px-5 py-16">
-  <h2 className="text-3xl font-extrabold text-center text-pink-500 mb-10">
-    What I Do
-  </h2>
+          <SectionTitle label="Service" title="What I Do" />
 
   <div className="grid gap-6 md:grid-cols-3">
     {[
@@ -659,9 +654,9 @@ const certificates = [
           <div className="grid gap-6 lg:grid-cols-3">
             {projects.map((project) => (
               <Card key={project.title} dark={dark}>
-                <div className="mb-5 grid h-36 place-items-center rounded-2xl bg-gradient-to-br from-pink-100 to-pink-400 text-5xl text-white shadow-[0_0_35px_rgba(236,72,153,0.25)]">
-                  {project.icon}
-                </div>
+                <div className="mb-5 grid h-40 place-items-center rounded-[26px] bg-gradient-to-br from-pink-200 via-pink-400 to-fuchsia-500 text-6xl text-white shadow-[0_0_45px_rgba(236,72,153,0.35)] transition duration-500 group-hover:scale-[1.03]">
+  {project.icon}
+</div>
                 <h3 className="text-xl font-extrabold text-pink-500">{project.title}</h3>
                 <p className={`mt-4 leading-7 ${muted}`}>{project.desc}</p>
                 <button
