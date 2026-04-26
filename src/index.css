@@ -80,3 +80,37 @@ body {
 body {
   cursor: none;
 }
+.skill-scroll {
+  scrollbar-width: none;
+}
+
+.skill-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .skill-scroll {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-columns: max-content;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+  .skill-scroll span {
+    font-size: 0.78rem;
+    padding: 8px 13px;
+  }
+}
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+
+  .cursor-love,
+  .cursor-glow,
+  .sparkle {
+    display: none !important;
+  }
+}

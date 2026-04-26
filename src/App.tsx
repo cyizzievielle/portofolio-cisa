@@ -545,13 +545,16 @@ const certificates = [
         <section id="skills" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Skills" title="Tools & Tech Stack" />
           <Card dark={dark}>
-            <div className="flex flex-wrap gap-3">
-              {skills.map((skill) => (
-                <span key={skill} className={`rounded-full border px-4 py-2 text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}>
-                  {skill}
-                </span>
-              ))}
-            </div>
+<div className="skill-scroll flex gap-3 overflow-x-auto pb-3 md:flex-wrap md:overflow-visible">
+  {skills.map((skill) => (
+    <span
+      key={skill}
+      className={`shrink-0 rounded-full border px-4 py-2 text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
+    >
+      {skill}
+    </span>
+  ))}
+</div>
           </Card>
         </section>
 
