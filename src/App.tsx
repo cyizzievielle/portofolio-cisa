@@ -349,13 +349,12 @@ const certificates = [
       <div className="pointer-events-none fixed left-10 top-32 -z-10 h-56 w-56 rounded-full bg-pink-400/20 blur-3xl animate-soft-pulse" />
       <div className="pointer-events-none fixed bottom-10 right-10 -z-10 h-72 w-72 rounded-full bg-fuchsia-400/20 blur-3xl animate-soft-pulse" />
 
-      <header
-        className={`fixed top-0 z-50 w-full border-b ${
+      <header className={`fixed top-0 z-50 w-full border-b shadow-[0_5px_25px_rgba(236,72,153,0.15)] ${
           dark
             ? "bg-[#12070d] border-pink-300/20"
             : "bg-[#fff7fb] border-pink-200"
-        }`}
-      >
+        }`}>
+
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
           <a href="#" className="text-xl font-extrabold tracking-wide text-pink-500">
             Cisa.dev
@@ -456,7 +455,7 @@ const certificates = [
 </Card>
         </section>
         <section id="about" className="reveal mx-auto max-w-6xl px-5 py-16">
-          <SectionTitle label="About Me" title="Clean, classy, and developer vibes" />
+          <SectionTitle label="About Me" title="Lets See" />
           <Card dark={dark}>
             <p className={`leading-8 ${muted}`}>
               I am passionate about technology, especially website development, information systems,
