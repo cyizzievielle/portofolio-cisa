@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type CardProps = {
   children: React.ReactNode;
@@ -46,6 +46,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const navAreaRef = useRef<HTMLDivElement>(null);
   const [selectedCert, setSelectedCert] = useState<null | {
   title: string;
   desc: string;
@@ -64,6 +65,26 @@ export default function App() {
       tech: string[];
       features: string[];
     }>(null);
+
+useEffect(() => {
+  const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+    if (
+      open &&
+      navAreaRef.current &&
+      !navAreaRef.current.contains(e.target as Node)
+    ) {
+      setOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  document.addEventListener("touchstart", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+    document.removeEventListener("touchstart", handleClickOutside);
+  };
+}, [open]);
 
 useEffect(() => {
   const handleClickOutside = (e: MouseEvent) => {
@@ -426,34 +447,28 @@ const certificates = [
     </div>
 
     {/* RIGHT BUTTON */}
-    <div className="flex items-center gap-3">
-      {/* DARK MODE */}
-      <button
-        onClick={() => setDark((prev) => !prev)}
-        className={`grid place-items-center rounded-full border shadow-[0_0_25px_rgba(236,72,153,0.25)] transition-all duration-300 hover:-translate-y-1 ${softCard} ${
-          scrolled ? "h-10 w-10" : "h-11 w-11"
-        }`}
-      >
-        {dark ? "☀️" : "🌙"}
-      </button>
+<div ref={navAreaRef} className="relative flex items-center gap-3">
+  <button
+    onClick={() => setDark((prev) => !prev)}
+    className={`grid place-items-center rounded-full border shadow-[0_0_25px_rgba(236,72,153,0.25)] transition-all duration-300 hover:-translate-y-1 ${softCard} ${
+      scrolled ? "h-10 w-10" : "h-11 w-11"
+    }`}
+  >
+    {dark ? "☀️" : "🌙"}
+  </button>
 
-      {/* HAMBURGER */}
-      <button
-        onClick={() => setOpen((prev) => !prev)}
-        className={`grid place-items-center rounded-full border lg:hidden transition-all duration-300 ${softCard} ${
-          scrolled ? "h-10 w-10" : "h-11 w-11"
-        }`}
-      >
-        {open ? "✕" : "☰"}
-      </button>
-    </div>
-  </nav>
+  <button
+    onClick={() => setOpen((prev) => !prev)}
+    className={`grid place-items-center rounded-full border lg:hidden transition-all duration-300 ${softCard} ${
+      scrolled ? "h-10 w-10" : "h-11 w-11"
+    }`}
+  >
+    {open ? "✕" : "☰"}
+  </button>
 
-  {/* MOBILE MENU */}
   {open && (
     <div
-      ref={navRef}
-      className={`absolute right-5 top-20 z-50 grid w-64 gap-4 rounded-3xl border p-5 shadow-2xl ${
+      className={`absolute right-0 top-14 z-50 grid w-64 gap-4 rounded-3xl border p-5 shadow-2xl lg:hidden ${
         dark
           ? "bg-[#12070d] border-pink-300/20"
           : "bg-white border-pink-200"
@@ -471,6 +486,7 @@ const certificates = [
       ))}
     </div>
   )}
+  </div>
 </header>
 
       <main>
