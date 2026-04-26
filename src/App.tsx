@@ -487,6 +487,7 @@ const certificates = [
     </div>
   )}
   </div>
+    </nav>
 </header>
 
       <main>
@@ -817,12 +818,11 @@ const certificates = [
       </main>
 {selectedCert && (
   <div
-    onClick={() => setSelectedCert(null)}
+    onPointerDown={() => setSelectedCert(null)}
     className="fixed inset-0 z-[9999] flex cursor-pointer items-center justify-center bg-black/75 px-4 backdrop-blur-sm"
   >
     <div
-      onClick={(e) => e.stopPropagation()}
-      className={`relative max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-[30px] border p-4 shadow-[0_30px_100px_rgba(236,72,153,0.35)] ${
+      className={`relative max-h-[92vh] w-full max-w-5xl overflow-auto rounded-[30px] border p-4 shadow-[0_30px_100px_rgba(236,72,153,0.35)] ${
         dark
           ? "border-pink-300/20 bg-[#1a0b12]"
           : "border-pink-200 bg-white"
@@ -830,27 +830,16 @@ const certificates = [
     >
       <button
         onClick={() => setSelectedCert(null)}
-        className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-pink-500 font-bold text-white shadow-lg transition hover:scale-110"
+        className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-pink-500 font-bold text-white shadow-lg"
       >
         ✕
       </button>
 
-      <div className="overflow-hidden rounded-2xl bg-pink-50">
-        <img
-          src={selectedCert.image}
-          alt={selectedCert.title}
-          className="max-h-[70vh] w-full object-contain"
-        />
-      </div>
-
-      <div className="p-4">
-        <h3 className="text-2xl font-extrabold text-pink-500">
-          {selectedCert.title}
-        </h3>
-        <p className={`mt-2 leading-7 ${muted}`}>
-          {selectedCert.desc}
-        </p>
-      </div>
+      <img
+        src={selectedCert.image}
+        alt={selectedCert.title}
+        className="max-h-[72vh] w-full rounded-2xl object-contain"
+      />
 
       <div className="p-4">
         <h3 className="text-2xl font-extrabold text-pink-500">
