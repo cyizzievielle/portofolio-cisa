@@ -269,32 +269,24 @@ const navLinks = [
   "Contact",
 ];
 
-  const skills = [
-    "PHP",
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "Node.js",
-    "JavaScript",
-    "TypeScript",
-    "Vite",
-    "MySQL",
-    "MariaDB",
-    "Laravel",
-    "CodeIgniter 4",
-    "Bootstrap",
-    "Tailwind",
-    "React",
-    "JSON",
-    "GitHub",
-    "Pterodactyl",
-    "System Design",
-    "Discord Bot",
-    "Database Design",
-    "UI/UX Basic",
-    "Figma",
-    "Canva",
-  ];
+  const skillGroups = [
+  {
+    title: "Frontend",
+    items: ["HTML", "CSS", "JavaScript", "React", "Tailwind"],
+  },
+  {
+    title: "Backend",
+    items: ["PHP", "Laravel", "CodeIgniter 4", "Node.js"],
+  },
+  {
+    title: "Database",
+    items: ["MySQL", "MariaDB", "SQLite"],
+  },
+  {
+    title: "Tools",
+    items: ["GitHub", "API", "Pterodactyl", "Discord Bot"],
+  },
+];
 
   const experiences = [
     {
@@ -548,6 +540,8 @@ const certificates = [
           </Card>
         </section>
 
+<div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
+
         <section id="education" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Education" title="My Academic Journey" />
           <div className="grid gap-6 md:grid-cols-2">
@@ -571,6 +565,8 @@ const certificates = [
           </div>
         </section>
 
+        <div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
+
         <section id="experience" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Experience" title="Work & Organization" />
           <div className="grid gap-6 lg:grid-cols-3">
@@ -592,53 +588,71 @@ const certificates = [
           </div>
         </section>
 
-        <section id="services" className="reveal mx-auto max-w-6xl px-5 py-16">
-  <SectionTitle label="Services" title="What I Can Do" />
+        <div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
 
-  <div className="grid gap-6 lg:grid-cols-3">
+<section id="services" className="reveal mx-auto max-w-6xl px-5 py-16">
+  <h2 className="text-3xl font-extrabold text-center text-pink-500 mb-10">
+    What I Do
+  </h2>
+
+  <div className="grid gap-6 md:grid-cols-3">
     {[
       {
-        icon: "🌐",
         title: "Web Development",
-        desc: "Building responsive websites and web-based systems with clean UI, structured layout, and functional features.",
+        desc: "Building clean, responsive, and aesthetic web applications.",
       },
       {
-        icon: "🗂️",
         title: "System Development",
-        desc: "Creating structured information systems with database design, authentication, CRUD, and dashboard management.",
+        desc: "Designing structured systems with efficient data workflows.",
       },
       {
-        icon: "🤖",
         title: "Bot Automation",
-        desc: "Developing Discord bots for automation, moderation, role management, and interactive community features.",
+        desc: "Creating automation bots for Discord and custom integrations.",
       },
-    ].map((service) => (
-      <Card key={service.title} dark={dark} className="text-center">
-        <div className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-pink-200 to-pink-500 text-3xl shadow-[0_0_35px_rgba(236,72,153,0.25)]">
-          {service.icon}
-        </div>
-        <h3 className="text-xl font-extrabold text-pink-500">{service.title}</h3>
-        <p className={`mt-3 leading-7 ${muted}`}>{service.desc}</p>
-      </Card>
+    ].map((item) => (
+      <div
+        key={item.title}
+        className={`rounded-3xl border p-6 text-center transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] ${softCard}`}
+      >
+        <h3 className="text-lg font-bold text-pink-500 mb-2">
+          {item.title}
+        </h3>
+        <p className={`text-sm ${muted}`}>{item.desc}</p>
+      </div>
     ))}
   </div>
 </section>
 
-        <section id="skills" className="reveal mx-auto max-w-6xl px-5 py-16">
+<div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
+
+       <section id="skills" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Skills" title="Tools & Tech Stack" />
-          <Card dark={dark}>
-          <div className="skill-scroll flex gap-3 overflow-x-auto pb-3 md:flex-wrap md:overflow-visible">
-              {skills.map((skill) => (
-                <span
-                  key={skill}
-                  className={`shrink-0 rounded-full border px-4 py-2 text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </Card>
-        </section>
+  <div className="grid gap-6 md:grid-cols-2">
+    {skillGroups.map((group) => (
+      <div
+        key={group.title}
+        className={`rounded-3xl border p-6 transition hover:-translate-y-1 ${softCard}`}
+      >
+        <h3 className="mb-4 text-lg font-bold text-pink-500">
+          {group.title}
+        </h3>
+
+        <div className="flex flex-wrap gap-3">
+          {group.items.map((skill) => (
+            <span
+              key={skill}
+              className="rounded-full border px-3 py-1 text-xs font-semibold text-pink-500"
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
 
         <section id="projects" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Projects" title="Selected Works" />
@@ -660,6 +674,8 @@ const certificates = [
             ))}
           </div>
         </section>
+
+<div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
 
 <section id="certificates" className="reveal mx-auto max-w-6xl px-5 py-16">
   <SectionTitle label="Certificates" title="Certificates & Achievements" />
@@ -701,6 +717,8 @@ const certificates = [
   </div>
 </section>
 
+<div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
+
         <section id="hobbies" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Hobbies" title="Things I Love" />
           <div className="grid gap-6 md:grid-cols-3">
@@ -713,6 +731,7 @@ const certificates = [
             ))}
           </div>
         </section>
+<div className="mx-auto my-10 h-1 w-24 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 opacity-70" />
 
 <section id="contact" className="reveal mx-auto max-w-6xl px-5 py-20">
   <SectionTitle label="Contact" title="Let’s Connect" />
