@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softPulse {
+  50% {
+    opacity: 0.55;
+    transform: scale(1.08);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease both;
+}
+
+.animate-soft-pulse {
+  animation: softPulse 4s ease-in-out infinite;
+}
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s ease;
+}
+
+.reveal:not(.active) {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.cursor-love {
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  z-index: 9999;
+   transform: translate(-6px, -6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff4fa4;
+  font-size: 26px;
+  line-height: 1;
+  text-shadow:
+    0 0 8px rgba(255, 79, 164, 0.9),
+    0 0 18px rgba(255, 111, 181, 0.8);
+}
+
+.cursor-love::before {
+  content: "♥";
+}
+
+/* Optional: hide default cursor biar lebih kerasa */
+body {
+  cursor: none;
+}
