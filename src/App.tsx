@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 type CardProps = {
   children: React.ReactNode;
@@ -44,6 +44,8 @@ export default function App() {
   const [dark, setDark] = useState(false);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
   const [selectedCert, setSelectedCert] = useState<null | {
   title: string;
   desc: string;
@@ -53,16 +55,44 @@ export default function App() {
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 900);
     return () => clearTimeout(timer);
-    
-  }, []);
-  const [toast, setToast] = useState("");
-const [selectedProject, setSelectedProject] = useState<null | {
-  icon: string;
-  title: string;
-  desc: string;
-  tech: string[];
-  features: string[];
-}>(null);
+    }, []);
+      const [toast, setToast] = useState("");
+    const [selectedProject, setSelectedProject] = useState<null | {
+      icon: string;
+      title: string;
+      desc: string;
+      tech: string[];
+      features: string[];
+    }>(null);
+
+useEffect(() => {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      open &&
+      navRef.current &&
+      !navRef.current.contains(e.target as Node)
+    ) {
+      setOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [open]);
+
+useEffect(() => {
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 40);
+  };
+
+  handleScroll();
+  window.addEventListener("scroll", handleScroll);
+
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
 useEffect(() => {
   const observer = new IntersectionObserver(
@@ -349,63 +379,99 @@ const certificates = [
       <div className="pointer-events-none fixed left-10 top-32 -z-10 h-56 w-56 rounded-full bg-pink-400/20 blur-3xl animate-soft-pulse" />
       <div className="pointer-events-none fixed bottom-10 right-10 -z-10 h-72 w-72 rounded-full bg-fuchsia-400/20 blur-3xl animate-soft-pulse" />
 
-      <header className={`fixed top-0 z-50 w-full border-b shadow-[0_5px_25px_rgba(236,72,153,0.15)] ${
-          dark
-            ? "bg-[#12070d] border-pink-300/20"
-            : "bg-[#fff7fb] border-pink-200"
-        }`}>
+<header
+  className={`fixed top-0 z-50 w-full border-b transition-all duration-300 ${
+    dark
+      ? "bg-[#12070d] border-pink-300/20"
+      : "bg-[#fff7fb] border-pink-200"
+  } ${
+    scrolled
+      ? "shadow-[0_10px_35px_rgba(236,72,153,0.18)]"
+      : "shadow-[0_4px_18px_rgba(236,72,153,0.10)]"
+  }`}
+>
+  {/* TOP GRADIENT LINE */}
+  <div
+    className={`h-1 bg-gradient-to-r from-pink-300 via-pink-500 to-fuchsia-400 transition-all duration-300 ${
+      scrolled ? "opacity-100" : "opacity-0"
+    }`}
+  />
 
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-          <a href="#" className="text-xl font-extrabold tracking-wide text-pink-500">
-            Cisa.dev
-          </a>
+  <nav
+    className={`mx-auto flex max-w-6xl items-center justify-between px-5 transition-all duration-300 ${
+      dark ? "bg-[#12070d]" : "bg-[#fff7fb]"
+    } ${scrolled ? "py-3" : "py-5"}`}
+  >
+    {/* LOGO */}
+    <a
+      href="#"
+      className={`font-extrabold tracking-wide text-pink-500 transition-all duration-300 ${
+        scrolled ? "text-lg" : "text-xl"
+      }`}
+    >
+      Cisa.dev
+    </a>
 
-          <div className="hidden gap-5 lg:flex">
-            {navLinks.map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className={`text-sm font-semibold transition hover:text-pink-500 ${muted}`}
-              >
-                {link}
-              </a>
-            ))}
-          </div>
+    {/* DESKTOP MENU */}
+    <div className="hidden gap-6 lg:flex">
+      {navLinks.map((link) => (
+        <a
+          key={link}
+          href={`#${link.toLowerCase()}`}
+          className={`text-sm font-semibold transition duration-300 hover:text-pink-500 ${muted}`}
+        >
+          {link}
+        </a>
+      ))}
+    </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={() => setDark((prev) => !prev)}
-              className={`grid h-11 w-11 place-items-center rounded-full border shadow-[0_0_25px_rgba(236,72,153,0.25)] transition hover:-translate-y-1 ${softCard}`}
-            >
-              {dark ? "☀️" : "🌙"}
-            </button>
+    {/* RIGHT BUTTON */}
+    <div className="flex items-center gap-3">
+      {/* DARK MODE */}
+      <button
+        onClick={() => setDark((prev) => !prev)}
+        className={`grid place-items-center rounded-full border shadow-[0_0_25px_rgba(236,72,153,0.25)] transition-all duration-300 hover:-translate-y-1 ${softCard} ${
+          scrolled ? "h-10 w-10" : "h-11 w-11"
+        }`}
+      >
+        {dark ? "☀️" : "🌙"}
+      </button>
 
-            <button
-              onClick={() => setOpen((prev) => !prev)}
-              className={`grid h-11 w-11 place-items-center rounded-full border lg:hidden ${softCard}`}
-            >
-              {open ? "✕" : "☰"}
-            </button>
-          </div>
+      {/* HAMBURGER */}
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className={`grid place-items-center rounded-full border lg:hidden transition-all duration-300 ${softCard} ${
+          scrolled ? "h-10 w-10" : "h-11 w-11"
+        }`}
+      >
+        {open ? "✕" : "☰"}
+      </button>
+    </div>
+  </nav>
 
-          {open && (
-            <div
-              className={`absolute right-5 top-20 grid w-60 gap-4 rounded-3xl border p-5 shadow-2xl backdrop-blur-xl lg:hidden ${softCard}`}
-            >
-              {navLinks.map((link) => (
-                <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  onClick={() => setOpen(false)}
-                  className={`font-bold ${muted}`}
-                >
-                  {link}
-                </a>
-              ))}
-            </div>
-          )}
-        </nav>
-      </header>
+  {/* MOBILE MENU */}
+  {open && (
+    <div
+      ref={navRef}
+      className={`absolute right-5 top-20 z-50 grid w-64 gap-4 rounded-3xl border p-5 shadow-2xl ${
+        dark
+          ? "bg-[#12070d] border-pink-300/20"
+          : "bg-white border-pink-200"
+      }`}
+    >
+      {navLinks.map((link) => (
+        <a
+          key={link}
+          href={`#${link.toLowerCase()}`}
+          onClick={() => setOpen(false)}
+          className={`font-bold transition hover:text-pink-500 ${muted}`}
+        >
+          {link}
+        </a>
+      ))}
+    </div>
+  )}
+</header>
 
       <main>
         <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-10 px-5 pt-32 lg:grid-cols-[1.15fr_.85fr]">
@@ -455,7 +521,7 @@ const certificates = [
 </Card>
         </section>
         <section id="about" className="reveal mx-auto max-w-6xl px-5 py-16">
-          <SectionTitle label="About Me" title="Lets See" />
+          <SectionTitle label="About Me" title="A Little About Me" />
           <Card dark={dark}>
             <p className={`leading-8 ${muted}`}>
               I am passionate about technology, especially website development, information systems,
@@ -733,9 +799,13 @@ const certificates = [
 </section>
 
       </main>
-      {selectedCert && (
-  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
+{selectedCert && (
+  <div
+    onClick={() => setSelectedCert(null)}
+    className="fixed inset-0 z-[9999] flex cursor-pointer items-center justify-center bg-black/75 px-4 backdrop-blur-sm"
+  >
     <div
+      onClick={(e) => e.stopPropagation()}
       className={`relative max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-[30px] border p-4 shadow-[0_30px_100px_rgba(236,72,153,0.35)] ${
         dark
           ? "border-pink-300/20 bg-[#1a0b12]"
@@ -755,6 +825,15 @@ const certificates = [
           alt={selectedCert.title}
           className="max-h-[70vh] w-full object-contain"
         />
+      </div>
+
+      <div className="p-4">
+        <h3 className="text-2xl font-extrabold text-pink-500">
+          {selectedCert.title}
+        </h3>
+        <p className={`mt-2 leading-7 ${muted}`}>
+          {selectedCert.desc}
+        </p>
       </div>
 
       <div className="p-4">
