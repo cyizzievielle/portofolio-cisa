@@ -1,14 +1,83 @@
 import { useEffect, useRef, useState } from "react";
+import { FaDiscord, FaGithub, FaInstagram, FaLinkedin, FaMoon, FaSun } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import {
+  HiAcademicCap,
+  HiBriefcase,
+  HiCodeBracket,
+  HiEnvelope,
+  HiHeart,
+  HiHome,
+  HiIdentification,
+  HiMusicalNote,
+  HiPaintBrush,
+  HiSparkles,
+  HiSquares2X2,
+  HiWrenchScrewdriver,
+  HiXMark,
+  HiBars3,
+} from "react-icons/hi2";
 
 type CardProps = {
   children: React.ReactNode;
   dark: boolean;
   className?: string;
+  style?: React.CSSProperties;
 };
 
-function Card({ children, dark, className = "" }: CardProps) {
+type Project = {
+  title: string;
+  category: string;
+  year: string;
+  desc: string;
+  tech: string[];
+  features: string[];
+  image?: string;
+  github?: string;
+  live?: string;
+  accent: string;
+};
+
+function SocialLogo({ name }: { name: string }) {
+  const logos: Record<string, React.ReactNode> = {
+    Email: <MdEmail />,
+    Instagram: <FaInstagram />,
+    GitHub: <FaGithub />,
+    LinkedIn: <FaLinkedin />,
+    Discord: <FaDiscord />,
+  };
+
+  return (
+    <span className="grid h-10 w-10 place-items-center text-3xl text-pink-500">
+      {logos[name] ?? <MdEmail />}
+    </span>
+  );
+}
+
+function NavBadge({ label }: { label: string }) {
+  const icons: Record<string, React.ReactNode> = {
+    About: <HiIdentification />,
+    Education: <HiAcademicCap />,
+    Experience: <HiBriefcase />,
+    Services: <HiWrenchScrewdriver />,
+    Skills: <HiCodeBracket />,
+    Projects: <HiSquares2X2 />,
+    Certificates: <HiSparkles />,
+    Hobbies: <HiHeart />,
+    Contact: <HiEnvelope />,
+  };
+
+  return (
+    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-pink-100 to-fuchsia-100 text-lg text-pink-500 shadow-md">
+      {icons[label] ?? <HiSparkles />}
+    </span>
+  );
+}
+
+function Card({ children, dark, className = "", style }: CardProps) {
   return (
     <div
+      style={style}
       className={`group relative overflow-hidden rounded-[30px] border p-6 transition-all duration-500 hover:-translate-y-3 hover:scale-[1.015] ${
         dark
           ? "border-pink-300/20 bg-[#220f19]/90 shadow-[0_25px_80px_rgba(255,79,164,0.16)] hover:shadow-[0_35px_110px_rgba(255,79,164,0.28)]"
@@ -56,11 +125,16 @@ export default function App() {
     }, []);
       const [toast, setToast] = useState("");
     const [selectedProject, setSelectedProject] = useState<null | {
-      icon: string;
       title: string;
+      category: string;
+      year: string;
       desc: string;
       tech: string[];
       features: string[];
+      image?: string;
+      github?: string;
+      live?: string;
+      accent: string;
     }>(null);
 
 useEffect(() => {
@@ -306,29 +380,55 @@ const navLinks = [
     },
   ];
 
-const projects = [
+const projects: Project[] = [
   {
-    icon: "🤖",
     title: "Cyza Bot",
+    category: "Discord Automation",
+    year: "2025",
     desc: "A Discord bot designed to support server management, moderation, automation, role management, logging system, welcome messages, auto responses, and utility commands.",
     tech: ["Node.js", "Discord.js", "Automation", "JSON"],
     features: ["Moderation tools", "Role management", "Auto response", "Server logs", "Welcome message"],
+    image: "/project/botcyza.png",
+    accent: "from-sky-300 via-pink-400 to-fuchsia-500",
   },
   {
-    icon: "💗",
     title: "Relovie Bot",
+    category: "Interactive Bot",
+    year: "2026",
     desc: "An interactive Discord bot with relationship features, pairing system, entertainment commands, data storage, API integration, and user interaction features.",
     tech: ["Node.js", "API", "Discord.js", "Data Storage"],
     features: ["Pairing system", "Interactive commands", "User profiles", "Fun commands", "Backup data"],
+    image: "/project/relovie.png",
+    accent: "from-rose-300 via-pink-400 to-violet-500",
   },
   {
-    icon: "💻",
-    title: "Web Systems",
-    desc: "Web-based systems built with PHP and MySQL, including CRUD features, multi-role login, dashboard management, form validation, database relations, and clean admin interfaces.",
-    tech: ["PHP", "MySQL", "CodeIgniter", "Laravel"],
-    features: ["CRUD system", "Multi-role login", "Admin dashboard", "Database relation", "Validation form"],
+    title: "SIMTA",
+    category: "Academic Information System",
+    year: "2026",
+    desc: "Sistem Informasi Manajemen Tugas Akhir for managing final project workflows, student data, submission progress, supervisor coordination, and structured academic documentation.",
+    tech: ["PHP", "MySQL", "CodeIgniter 4", "Bootstrap"],
+    features: ["Student data management", "Final project tracking", "Supervisor workflow", "Document submission", "Admin dashboard"],
+    image: "/project/simta.png",
+    github: "https://github.com/cyizzievielle/simta",
+    live: "https://project-simta.my.id",
+    accent: "from-cyan-300 via-pink-400 to-purple-500",
+  },
+  {
+    title: "Mystral Academy",
+    category: "Community Website",
+    year: "2026",
+    desc: "An interactive community website for Mystral Academy with a polished academy-themed interface, event archive, staff profiles, recruitment, rules, leaderboard, gallery, and member comments.",
+    tech: ["React", "TypeScript", "Tailwind", "Vite"],
+    features: ["Responsive landing page", "Event archive", "Staff profiles", "Recruitment section", "Community gallery"],
+    image: "/project/mystralweb.png",
+    github: "https://github.com/cyizzievielle/mystralacademy-website",
+    live: "https://mystralacademy.website/",
+    accent: "from-violet-300 via-pink-400 to-amber-300",
   },
 ];
+
+const featuredProject = projects.find((project) => project.title === "SIMTA") ?? projects[0];
+const otherProjects = projects.filter((project) => project.title !== featuredProject.title);
 
 const certificates = [
   {
@@ -346,16 +446,19 @@ const certificates = [
   const hobbies = [
     {
       icon: "💻",
+      iconElement: <HiCodeBracket />,
       title: "Coding",
       desc: "Building websites, bots, CRUD systems, and exploring new technologies to improve my development skills.",
     },
     {
       icon: "🎨",
+      iconElement: <HiPaintBrush />,
       title: "Design",
       desc: "Creating clean, aesthetic, and user-friendly interfaces with a soft and modern visual style.",
     },
     {
       icon: "🎧",
+      iconElement: <HiMusicalNote />,
       title: "Music",
       desc: "Listening to music to stay focused, relaxed, and inspired while working on creative projects.",
     },
@@ -419,7 +522,7 @@ const certificates = [
         scrolled ? "text-lg" : "text-xl"
       }`}
     >
-      Cisa.dev
+      Portfolio Cisa
     </a>
 
     {/* DESKTOP MENU */}
@@ -439,37 +542,56 @@ const certificates = [
 <div ref={navAreaRef} className="relative flex items-center gap-3">
   <button
     onClick={() => setDark((prev) => !prev)}
-    className={`grid place-items-center rounded-full border shadow-[0_0_25px_rgba(236,72,153,0.25)] transition-all duration-300 hover:-translate-y-1 ${softCard} ${
+    title={dark ? "Switch to light mode" : "Switch to dark mode"}
+    className={`inline-flex shrink-0 items-center justify-center rounded-full border text-[0px] text-pink-500 shadow-[0_0_25px_rgba(236,72,153,0.25)] transition-all duration-300 hover:-translate-y-1 ${softCard} ${
       scrolled ? "h-10 w-10" : "h-11 w-11"
     }`}
   >
+    {dark ? <FaSun className="h-5 w-5 text-pink-500" /> : <FaMoon className="h-5 w-5 text-pink-500" />}
+    <span className="hidden">{dark ? "light" : "dark"}</span>
+    <span className="sr-only">{dark ? "Switch to light mode" : "Switch to dark mode"}</span>
     {dark ? "☀️" : "🌙"}
   </button>
 
   <button
     onClick={() => setOpen((prev) => !prev)}
-    className={`grid place-items-center rounded-full border lg:hidden transition-all duration-300 ${softCard} ${
+    title={open ? "Close menu" : "Open menu"}
+    className={`inline-flex shrink-0 items-center justify-center rounded-full border text-[0px] text-pink-500 lg:hidden transition-all duration-300 ${softCard} ${
       scrolled ? "h-10 w-10" : "h-11 w-11"
     }`}
   >
+    {open ? <HiXMark className="h-6 w-6 text-pink-500" /> : <HiBars3 className="h-6 w-6 text-pink-500" />}
+    <span className="hidden">{open ? "close" : "menu"}</span>
+    <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
     {open ? "✕" : "☰"}
   </button>
 
   {open && (
     <div
-      className={`absolute right-0 top-14 z-50 grid w-64 gap-4 rounded-3xl border p-5 shadow-2xl lg:hidden ${
+      className={`animate-modal-in absolute right-0 top-14 z-50 grid w-72 gap-4 rounded-3xl border p-5 shadow-2xl lg:hidden ${
         dark
           ? "bg-[#12070d] border-pink-300/20"
           : "bg-white border-pink-200"
       }`}
     >
+      <div className={`flex items-center gap-3 rounded-2xl border p-3 ${softCard}`}>
+        <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-pink-300 via-pink-500 to-fuchsia-500 text-xl text-white shadow-md">
+          <HiHome />
+        </div>
+        <div>
+          <p className="font-black text-pink-500">Portfolio Cisa</p>
+          <p className={`text-xs font-semibold ${muted}`}>Portfolio menu</p>
+        </div>
+      </div>
+
       {navLinks.map((link) => (
         <a
           key={link}
           href={`#${link.toLowerCase()}`}
           onClick={() => setOpen(false)}
-          className={`font-bold transition hover:text-pink-500 ${muted}`}
+          className={`flex items-center gap-3 rounded-2xl px-2 py-1 font-bold transition hover:bg-pink-100/60 hover:text-pink-500 ${muted}`}
         >
+          <NavBadge label={link} />
           {link}
         </a>
       ))}
@@ -651,20 +773,202 @@ const certificates = [
 
         <section id="projects" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Projects" title="Selected Works" />
-          <div className="grid gap-6 lg:grid-cols-3">
-            {projects.map((project) => (
-              <Card key={project.title} dark={dark}>
-                <div className="mb-5 grid h-40 place-items-center rounded-[26px] bg-gradient-to-br from-pink-200 via-pink-400 to-fuchsia-500 text-6xl text-white shadow-[0_0_45px_rgba(236,72,153,0.35)] transition duration-500 group-hover:scale-[1.03]">
-  {project.icon}
-</div>
-                <h3 className="text-xl font-extrabold text-pink-500">{project.title}</h3>
-                <p className={`mt-4 leading-7 ${muted}`}>{project.desc}</p>
-                <button
-                  onClick={() => setSelectedProject(project)}
-                  className="mt-5 inline-block rounded-full bg-gradient-to-r from-pink-300 to-pink-500 px-5 py-2 font-bold text-white transition hover:-translate-y-1"
-                >
-                  View Details
-                </button>
+          <p className={`mx-auto -mt-5 mb-10 max-w-2xl text-center leading-7 ${muted}`}>
+            A few projects I have built, from Discord automation to full web systems with live demos.
+          </p>
+
+          <div className="mb-8 grid gap-4 sm:grid-cols-3">
+            {[
+              ["6+", "Featured builds"],
+              ["Full-stack", "Web systems"],
+              ["Live", "Ready to explore"],
+            ].map(([value, label]) => (
+              <div
+                key={label}
+                className={`rounded-2xl border px-5 py-4 text-center shadow-lg transition duration-300 hover:-translate-y-1 ${softCard}`}
+              >
+                <p className="text-2xl font-black text-pink-500">{value}</p>
+                <p className={`mt-1 text-sm font-bold ${muted}`}>{label}</p>
+              </div>
+            ))}
+          </div>
+
+          <Card dark={dark} className="mb-8">
+            <div className="grid gap-6 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
+              <div className={`relative min-h-64 overflow-hidden rounded-[24px] bg-gradient-to-br ${featuredProject.accent} text-white shadow-[0_18px_55px_rgba(236,72,153,0.28)] sm:min-h-80`}>
+                {featuredProject.image ? (
+                  <img
+                    src={featuredProject.image}
+                    alt={`${featuredProject.title} preview`}
+                    className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,.22),transparent_35%,rgba(255,255,255,.16))]" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#160711]/90 via-[#160711]/25 to-black/20" />
+                <div className="absolute left-4 right-4 top-4 flex flex-wrap items-start justify-between gap-3">
+                  <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] shadow-lg backdrop-blur">
+                    Featured
+                  </span>
+                  <span className="rounded-full bg-white/20 px-3 py-1 text-right text-xs font-bold shadow-lg backdrop-blur">
+                    {featuredProject.category}
+                  </span>
+                </div>
+                <div className="absolute bottom-5 left-5 right-5">
+                  <p className="text-xs font-black uppercase tracking-[0.25em] text-white/75">
+                    {featuredProject.year}
+                  </p>
+                  <h3 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">
+                    {featuredProject.title}
+                  </h3>
+                </div>
+              </div>
+
+              <div>
+                <span className="inline-flex rounded-full bg-pink-100 px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-pink-500">
+                  Main Project
+                </span>
+                <h3 className="mt-5 text-3xl font-black leading-tight text-pink-500">
+                  {featuredProject.title}
+                </h3>
+                <p className={`mt-4 leading-8 ${muted}`}>
+                  {featuredProject.desc}
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {featuredProject.tech.map((tech) => (
+                    <span key={tech} className={`rounded-full border px-3 py-1 text-xs font-bold text-pink-500 ${softCard}`}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
+                  {featuredProject.live && (
+                    <a
+                      href={featuredProject.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-gradient-to-r from-pink-300 to-pink-500 px-6 py-3 text-center text-sm font-bold text-white shadow-[0_14px_35px_rgba(236,72,153,0.35)] transition hover:-translate-y-1"
+                    >
+                      Live Web
+                    </a>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProject(featuredProject)}
+                    className={`rounded-full border px-6 py-3 text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
+                  >
+                    Details
+                  </button>
+                  {featuredProject.github && (
+                    <a
+                      href={featuredProject.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`rounded-full border px-6 py-3 text-center text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
+                    >
+                      GitHub
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          <div className="mb-5 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-pink-500">
+                More Work
+              </p>
+              <h3 className="mt-2 text-2xl font-black text-pink-500">
+                Supporting Projects
+              </h3>
+            </div>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {otherProjects.map((project, index) => (
+              <Card
+                key={project.title}
+                dark={dark}
+                className="h-full animate-card-in"
+                style={{ animationDelay: `${index * 90}ms` } as React.CSSProperties}
+              >
+                <div className="flex h-full flex-col">
+                  <div className={`relative mb-5 h-40 overflow-hidden rounded-[22px] bg-gradient-to-br ${project.accent} text-white shadow-[0_18px_45px_rgba(236,72,153,0.25)] transition duration-500 group-hover:scale-[1.02] sm:h-44`}>
+                    {project.image ? (
+                      <img
+                        src={project.image}
+                        alt={`${project.title} preview`}
+                        className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,.22),transparent_35%,rgba(255,255,255,.16))]" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#160711]/90 via-[#160711]/20 to-black/20" />
+                    <div className="absolute left-4 right-4 top-4 flex items-start justify-between gap-3">
+                      <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] shadow-lg backdrop-blur">
+                        {project.year}
+                      </span>
+                      <span className="rounded-full bg-white/20 px-3 py-1 text-right text-xs font-bold shadow-lg backdrop-blur">
+                        {project.category}
+                      </span>
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h4 className="text-xl font-black leading-tight drop-shadow-lg sm:text-2xl">
+                        {project.title}
+                      </h4>
+                      <div className="mt-3 h-2 rounded-full bg-white/25">
+                        <div className="h-full w-2/3 rounded-full bg-white/80" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-1 flex-col">
+                    <h3 className="text-xl font-extrabold text-pink-500">{project.title}</h3>
+                    <p className={`project-card-desc mt-3 text-sm leading-7 sm:text-base ${muted}`}>{project.desc}</p>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {project.tech.slice(0, 3).map((tech) => (
+                        <span key={tech} className={`rounded-full border px-3 py-1 text-xs font-bold text-pink-500 ${softCard}`}>
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-auto grid gap-3 pt-5 sm:flex sm:flex-wrap">
+                      <button
+                        onClick={() => setSelectedProject(project)}
+                        className="rounded-full bg-gradient-to-r from-pink-300 to-pink-500 px-5 py-3 text-sm font-bold text-white shadow-[0_12px_30px_rgba(236,72,153,0.28)] transition hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(236,72,153,0.38)]"
+                      >
+                        Details
+                      </button>
+
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`rounded-full border px-5 py-3 text-center text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
+                        >
+                          GitHub
+                        </a>
+                      )}
+
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`rounded-full border px-5 py-3 text-center text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
+                        >
+                          Live
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </Card>
             ))}
           </div>
@@ -717,11 +1021,30 @@ const certificates = [
         <section id="hobbies" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Hobbies" title="Things I Love" />
           <div className="grid gap-6 md:grid-cols-3">
-            {hobbies.map((hobby) => (
-              <Card key={hobby.title} dark={dark} className="text-center">
-                <div className="mb-3 text-5xl">{hobby.icon}</div>
-                <h3 className="text-xl font-extrabold text-pink-500">{hobby.title}</h3>
-                <p className={`mt-3 leading-7 ${muted}`}>{hobby.desc}</p>
+            {hobbies.map((hobby, index) => (
+              <Card
+                key={hobby.title}
+                dark={dark}
+                className="h-full animate-card-in"
+                style={{ animationDelay: `${index * 90}ms` } as React.CSSProperties}
+              >
+                <div className="flex h-full flex-col">
+                  <div className="mb-6 flex items-start justify-between gap-4">
+                    <div className="grid h-16 w-16 place-items-center rounded-[22px] bg-gradient-to-br from-pink-300 via-pink-500 to-fuchsia-500 text-3xl text-white shadow-[0_16px_35px_rgba(236,72,153,0.35)] transition duration-300 group-hover:rotate-3 group-hover:scale-110">
+                      {hobby.iconElement}
+                    </div>
+                    <span className={`rounded-full border px-3 py-1 text-xs font-black text-pink-500 ${softCard}`}>
+                      0{index + 1}
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl font-black text-pink-500">{hobby.title}</h3>
+                  <p className={`mt-3 flex-1 leading-7 ${muted}`}>{hobby.desc}</p>
+
+                  <div className="mt-6 h-2 overflow-hidden rounded-full bg-pink-100">
+                    <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-pink-300 to-fuchsia-500 transition duration-500 group-hover:w-full" />
+                  </div>
+                </div>
               </Card>
             ))}
           </div>
@@ -766,8 +1089,8 @@ const certificates = [
         className={`group relative overflow-hidden rounded-3xl border p-6 text-center shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] ${softCard}`}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-pink-300/20 to-transparent opacity-0 transition group-hover:opacity-100" />
-        <div className="relative mx-auto mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-pink-100 text-2xl shadow-md">
-          {item.icon}
+        <div className="relative mx-auto mb-3 grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-[0_14px_35px_rgba(236,72,153,0.2)] ring-1 ring-pink-200/70 transition duration-300 group-hover:scale-110">
+          <SocialLogo name={item.title} />
         </div>
         <h3 className="relative font-extrabold text-pink-500">{item.title}</h3>
         <p className={`relative mt-1 text-xs ${muted}`}>{item.value}</p>
@@ -783,7 +1106,8 @@ const certificates = [
       className={`group relative overflow-hidden rounded-3xl border p-6 text-center shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] ${softCard}`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-pink-300/20 to-transparent opacity-0 transition group-hover:opacity-100" />
-      <div className="relative mx-auto mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-pink-100 text-2xl shadow-md">
+      <div className="relative mx-auto mb-3 grid h-14 w-14 place-items-center rounded-2xl bg-white text-[0px] shadow-[0_14px_35px_rgba(236,72,153,0.2)] ring-1 ring-pink-200/70 transition duration-300 group-hover:scale-110">
+        <SocialLogo name="Discord" />
         🎮
       </div>
       <h3 className="relative font-extrabold text-pink-500">Discord</h3>
@@ -908,32 +1232,88 @@ const certificates = [
       </footer>
 
 {selectedProject && (
-  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
+  <div
+    onClick={() => setSelectedProject(null)}
+    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+  >
     <div
-      className={`relative w-full max-w-3xl rounded-[32px] border p-6 shadow-[0_30px_100px_rgba(236,72,153,0.35)] ${
+      onClick={(e) => e.stopPropagation()}
+      className={`animate-modal-in relative max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-[28px] border p-4 shadow-[0_30px_100px_rgba(236,72,153,0.35)] sm:p-6 ${
         dark ? "border-pink-300/20 bg-[#1a0b12]" : "border-pink-200 bg-white"
       }`}
     >
       <button
         onClick={() => setSelectedProject(null)}
-        className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-pink-500 font-bold text-white"
+        aria-label="Close project detail"
+        className="absolute right-4 top-4 z-30 grid h-11 w-11 place-items-center rounded-full bg-pink-500 font-bold text-white shadow-[0_12px_35px_rgba(236,72,153,0.35)] transition hover:-translate-y-1 hover:bg-pink-600"
       >
         ✕
       </button>
 
-      <div className="mb-5 text-6xl">{selectedProject.icon}</div>
-      <h3 className="text-3xl font-extrabold text-pink-500">
-        {selectedProject.title}
-      </h3>
+      <div className={`relative mb-6 min-h-72 overflow-hidden rounded-[24px] bg-gradient-to-br ${selectedProject.accent} p-5 text-white shadow-[0_0_45px_rgba(236,72,153,0.32)] sm:min-h-[420px]`}>
+        {selectedProject.image ? (
+          <img
+            src={selectedProject.image}
+            alt={`${selectedProject.title} preview`}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,.22),transparent_35%,rgba(255,255,255,.16))]" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#160711]/85 via-[#160711]/25 to-black/25" />
+        <div className="relative flex flex-wrap items-start justify-between gap-3 pr-12">
+          <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] shadow-lg backdrop-blur">
+            {selectedProject.year}
+          </span>
+          <span className="rounded-full bg-white/20 px-3 py-1 text-right text-xs font-bold shadow-lg backdrop-blur">
+            {selectedProject.category}
+          </span>
+        </div>
 
-      <p className={`mt-4 leading-8 ${muted}`}>
+        <div className="absolute bottom-5 left-5 right-5">
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-white/75">
+            Project Detail
+          </p>
+          <h3 className="mt-2 text-3xl font-extrabold leading-tight sm:text-4xl">
+            {selectedProject.title}
+          </h3>
+        </div>
+      </div>
+
+      <p className={`mt-4 max-w-4xl leading-8 ${muted}`}>
         {selectedProject.desc}
       </p>
 
+      {(selectedProject.github || selectedProject.live) && (
+        <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
+          {selectedProject.github && (
+            <a
+              href={selectedProject.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`rounded-full border px-5 py-3 text-center text-sm font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}
+            >
+              Open GitHub
+            </a>
+          )}
+
+          {selectedProject.live && (
+            <a
+              href={selectedProject.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-gradient-to-r from-pink-300 to-pink-500 px-5 py-3 text-center text-sm font-bold text-white shadow-[0_12px_30px_rgba(236,72,153,0.3)] transition hover:-translate-y-1"
+            >
+              Visit Live Web
+            </a>
+          )}
+        </div>
+      )}
+
       <h4 className="mt-6 font-extrabold text-pink-500">Main Features</h4>
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {selectedProject.features.map((feature) => (
-          <span key={feature} className={`rounded-full border px-3 py-1 text-sm font-bold text-pink-500 ${softCard}`}>
+          <span key={feature} className={`rounded-2xl border px-3 py-2 text-sm font-bold text-pink-500 ${softCard}`}>
             {feature}
           </span>
         ))}
@@ -942,7 +1322,7 @@ const certificates = [
       <h4 className="mt-6 font-extrabold text-pink-500">Tech Stack</h4>
       <div className="mt-3 flex flex-wrap gap-2">
         {selectedProject.tech.map((tech) => (
-          <span key={tech} className="rounded-full bg-pink-500 px-3 py-1 text-sm font-bold text-white">
+          <span key={tech} className="rounded-full bg-pink-500 px-3 py-1 text-sm font-bold text-white shadow-[0_8px_22px_rgba(236,72,153,0.22)]">
             {tech}
           </span>
         ))}
