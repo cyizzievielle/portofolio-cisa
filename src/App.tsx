@@ -322,6 +322,33 @@ const showToast = (message: string) => {
   setToast(message);
   setTimeout(() => setToast(""), 2200);
 };
+
+const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch("https://formspree.io/f/mbdwwjoj", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Message failed");
+    }
+
+    form.reset();
+    showToast("Message sent successfully");
+  } catch {
+    showToast("Message failed to send");
+  }
+};
+
   const bg = dark ? "bg-[#12070d] text-pink-50" : "bg-[#fff7fb] text-[#3b2430]";
   const muted = dark ? "text-pink-200/80" : "text-[#7d5b69]";
   const softCard = dark
@@ -1128,25 +1155,36 @@ const certificates = [
       </p>
     </div>
 
-    <form className="grid gap-5">
+    <form onSubmit={handleContactSubmit} className="grid gap-5">
       <div className="grid gap-5 md:grid-cols-2">
         <input
+          name="name"
+          required
+          autoComplete="name"
           className={`rounded-2xl border p-4 outline-none transition focus:border-pink-400 focus:ring-4 focus:ring-pink-300/20 ${softCard}`}
           placeholder="Your Name"
         />
 
         <input
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
           className={`rounded-2xl border p-4 outline-none transition focus:border-pink-400 focus:ring-4 focus:ring-pink-300/20 ${softCard}`}
           placeholder="Your Email"
         />
       </div>
 
+      <input type="hidden" name="_subject" value="New message from Portfolio Cisa" />
+
       <textarea
+        name="message"
+        required
         className={`min-h-40 rounded-2xl border p-4 outline-none transition focus:border-pink-400 focus:ring-4 focus:ring-pink-300/20 ${softCard}`}
         placeholder="Write your message..."
       />
 
-      <button className="w-fit rounded-full bg-gradient-to-r from-pink-300 to-pink-500 px-8 py-3 font-bold text-white shadow-[0_14px_35px_rgba(236,72,153,0.35)] transition hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(236,72,153,0.45)]">
+      <button type="submit" className="w-fit rounded-full bg-gradient-to-r from-pink-300 to-pink-500 px-8 py-3 font-bold text-white shadow-[0_14px_35px_rgba(236,72,153,0.35)] transition hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(236,72,153,0.45)]">
         Send Message
       </button>
     </form>
