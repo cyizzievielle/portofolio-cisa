@@ -94,7 +94,7 @@ function Card({ children, dark, className = "", style }: CardProps) {
 function SectionTitle({ label, title }: { label: string; title: string }) {
   return (
     <div className="mb-12 text-center">
-      <span className="inline-flex rounded-full border border-pink-300/40 bg-pink-100/60 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.3em] text-pink-500 shadow-[0_10px_35px_rgba(236,72,153,0.15)]">
+      <span className="animate-badge-pop inline-flex rounded-full border border-pink-300/40 bg-pink-100/60 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.3em] text-pink-500 shadow-[0_10px_35px_rgba(236,72,153,0.15)]">
         {label}
       </span>
 
@@ -104,7 +104,8 @@ function SectionTitle({ label, title }: { label: string; title: string }) {
         </span>
       </h2>
     </div>
-  );}
+  );
+}
 
 export default function App() {
   const [dark, setDark] = useState(false);
@@ -593,16 +594,16 @@ const certificates = [
     {open ? "✕" : "☰"}
   </button>
 
-  {open && (
+{open && (
     <div
-      className={`animate-modal-in absolute right-0 top-14 z-50 grid w-72 gap-4 rounded-3xl border p-5 shadow-2xl lg:hidden ${
+      className={`animate-slide-down absolute right-0 top-14 z-50 grid w-[calc(100vw-2rem)] max-w-[320px] gap-3 rounded-3xl border p-5 shadow-2xl lg:hidden ${
         dark
           ? "bg-[#12070d] border-pink-300/20"
           : "bg-white border-pink-200"
       }`}
     >
       <div className={`flex items-center gap-3 rounded-2xl border p-3 ${softCard}`}>
-        <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-pink-300 via-pink-500 to-fuchsia-500 text-xl text-white shadow-md">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-pink-300 via-pink-500 to-fuchsia-500 text-xl text-white shadow-md">
           <HiHome />
         </div>
         <div>
@@ -616,7 +617,7 @@ const certificates = [
           key={link}
           href={`#${link.toLowerCase()}`}
           onClick={() => setOpen(false)}
-          className={`flex items-center gap-3 rounded-2xl px-2 py-1 font-bold transition hover:bg-pink-100/60 hover:text-pink-500 ${muted}`}
+          className={`flex items-center gap-3 rounded-2xl px-3 py-2.5 font-bold transition hover:bg-pink-100/60 hover:text-pink-500 active:scale-[0.98] ${muted}`}
         >
           <NavBadge label={link} />
           {link}
@@ -629,51 +630,62 @@ const certificates = [
 </header>
 
       <main>
-        <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-10 px-5 pt-32 lg:grid-cols-[1.15fr_.85fr]">
+        <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-5 pb-10 pt-28 sm:gap-10 sm:pt-32 lg:grid-cols-[1.15fr_.85fr]">
           <div className="animate-fade-up text-center lg:text-left">
-            <div className={`mb-6 inline-flex rounded-full border px-5 py-3 text-sm font-bold text-pink-500 shadow-lg ${softCard}`}>
+            <div className={`mb-5 inline-flex animate-badge-pop rounded-full border px-5 py-2.5 text-sm font-bold text-pink-500 shadow-lg ${softCard}`}>
               Portfolio • Developer • System Enthusiast
             </div>
 
-            <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-7xl">
-              Hi, I’m <span className="bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent">Cisa Livia Virnandyka</span>
+            <h1 className="text-3xl font-extrabold leading-tight sm:text-5xl lg:text-7xl">
+              Hi, I'm{" "}
+              <span className="bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent">
+                Cisa Livia Virnandyka
+              </span>
             </h1>
 
-            <p className={`mx-auto mt-5 max-w-2xl text-base leading-8 lg:mx-0 ${muted}`}>
+            <p className={`mx-auto mt-4 max-w-2xl text-sm leading-8 sm:text-base sm:mt-5 lg:mx-0 ${muted}`}>
               I am an Information Systems student at Sriwijaya University with a strong interest in system development,
               user interface design, database management, automation, and bot development.
             </p>
 
-            <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
-              <a href="#projects" className="rounded-full bg-gradient-to-r from-pink-300 to-pink-500 px-6 py-3 font-bold text-white shadow-[0_14px_35px_rgba(236,72,153,0.35)] transition hover:-translate-y-1">
+            <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:justify-center lg:justify-start">
+              <a
+                href="#projects"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-300 to-pink-500 px-6 py-3.5 font-bold text-white shadow-[0_14px_35px_rgba(236,72,153,0.35)] transition hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(236,72,153,0.48)] active:scale-[0.97]"
+              >
                 View Projects
               </a>
-              <a href="#contact" className={`rounded-full border px-6 py-3 font-bold text-pink-500 transition hover:-translate-y-1 ${softCard}`}>
+              <a
+                href="#contact"
+                className={`inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3.5 font-bold text-pink-500 transition hover:-translate-y-1 active:scale-[0.97] ${softCard}`}
+              >
                 Contact Me
               </a>
             </div>
           </div>
 
-<Card
-  dark={dark}
-  className="mx-auto w-full max-w-sm animate-[float_4s_ease-in-out_infinite] text-center"
->
-  <div className="mx-auto mb-6 h-40 w-40 overflow-hidden rounded-full shadow-[0_0_55px_rgba(236,72,153,0.35)]">
-    <img
-      src="/profile.jpg"
-      alt="Cisa Profile"
-      className="h-full w-full object-cover"
-    />
-  </div> {/* ✅ ini yang tadi kurang */}
+          <div className="mx-auto w-full max-w-xs animate-slide-in-right sm:max-w-sm lg:max-w-full">
+            <Card
+              dark={dark}
+              className="animate-[float_4.5s_ease-in-out_infinite] text-center"
+            >
+              <div className="mx-auto mb-6 h-36 w-36 overflow-hidden rounded-full shadow-[0_0_55px_rgba(236,72,153,0.35)] ring-4 ring-pink-200/50 sm:h-40 sm:w-40">
+                <img
+                  src="/profile.jpg"
+                  alt="Cisa Profile"
+                  className="h-full w-full object-cover"
+                />
+              </div>
 
-  <h3 className="text-2xl font-extrabold">
-    Cisa Livia Virnandyka
-  </h3>
+              <h3 className="text-xl font-extrabold sm:text-2xl">
+                Cisa Livia Virnandyka
+              </h3>
 
-  <p className={`mt-3 leading-7 ${muted}`}>
-    Web Developer focused on clean UI, efficient databases, and automation solutions.
-  </p>
-</Card>
+              <p className={`mt-3 text-sm leading-7 sm:text-base ${muted}`}>
+                Web Developer focused on clean UI, efficient databases, and automation solutions.
+              </p>
+            </Card>
+          </div>
         </section>
         <section id="about" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="About Me" title="A Little About Me" />
@@ -739,29 +751,36 @@ const certificates = [
 <section id="services" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Service" title="What I Do" />
 
-  <div className="grid gap-6 md:grid-cols-3">
+  <div className="grid gap-5 sm:grid-cols-3">
     {[
       {
+        emoji: "🌐",
         title: "Web Development",
         desc: "Building clean, responsive, and aesthetic web applications.",
       },
       {
+        emoji: "🗄️",
         title: "System Development",
         desc: "Designing structured systems with efficient data workflows.",
       },
       {
+        emoji: "🤖",
         title: "Bot Automation",
         desc: "Creating automation bots for Discord and custom integrations.",
       },
-    ].map((item) => (
+    ].map((item, i) => (
       <div
         key={item.title}
-        className={`rounded-3xl border p-6 text-center transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] ${softCard}`}
+        className={`animate-card-in rounded-3xl border p-6 text-center transition hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(236,72,153,0.28)] ${softCard}`}
+        style={{ animationDelay: `${i * 100}ms` }}
       >
+        <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-pink-200 to-pink-400 text-3xl shadow-[0_12px_30px_rgba(236,72,153,0.25)] transition group-hover:scale-110">
+          {item.emoji}
+        </div>
         <h3 className="text-lg font-bold text-pink-500 mb-2">
           {item.title}
         </h3>
-        <p className={`text-sm ${muted}`}>{item.desc}</p>
+        <p className={`text-sm leading-6 ${muted}`}>{item.desc}</p>
       </div>
     ))}
   </div>
@@ -771,21 +790,22 @@ const certificates = [
 
        <section id="skills" className="reveal mx-auto max-w-6xl px-5 py-16">
           <SectionTitle label="Skills" title="Tools & Tech Stack" />
-  <div className="grid gap-6 md:grid-cols-2">
-    {skillGroups.map((group) => (
+  <div className="grid gap-5 sm:grid-cols-2">
+    {skillGroups.map((group, i) => (
       <div
         key={group.title}
-        className={`rounded-3xl border p-6 transition hover:-translate-y-1 ${softCard}`}
+        className={`animate-card-in rounded-3xl border p-6 transition hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(236,72,153,0.22)] ${softCard}`}
+        style={{ animationDelay: `${i * 80}ms` }}
       >
         <h3 className="mb-4 text-lg font-bold text-pink-500">
           {group.title}
         </h3>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2.5">
           {group.items.map((skill) => (
             <span
               key={skill}
-              className="rounded-full border px-3 py-1 text-xs font-semibold text-pink-500"
+              className="rounded-full border border-pink-300/50 bg-pink-50/60 px-3 py-1.5 text-xs font-semibold text-pink-500 transition hover:-translate-y-0.5 hover:bg-pink-100/80"
             >
               {skill}
             </span>
@@ -1081,7 +1101,7 @@ const certificates = [
 <section id="contact" className="reveal mx-auto max-w-6xl px-5 py-20">
   <SectionTitle label="Contact" title="Let’s Connect" />
 
-  <div className="mb-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+  <div className="mb-10 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
     {[
       {
         icon: "📧",
@@ -1113,14 +1133,14 @@ const certificates = [
         href={item.href}
         target={item.title === "Email" ? undefined : "_blank"}
         rel={item.title === "Email" ? undefined : "noopener noreferrer"}
-        className={`group relative overflow-hidden rounded-3xl border p-6 text-center shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] ${softCard}`}
+        className={`group relative overflow-hidden rounded-3xl border p-4 text-center shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] active:scale-[0.97] sm:p-6 ${softCard}`}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-pink-300/20 to-transparent opacity-0 transition group-hover:opacity-100" />
-        <div className="relative mx-auto mb-3 grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-[0_14px_35px_rgba(236,72,153,0.2)] ring-1 ring-pink-200/70 transition duration-300 group-hover:scale-110">
+        <div className="relative mx-auto mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-[0_14px_35px_rgba(236,72,153,0.2)] ring-1 ring-pink-200/70 transition duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
           <SocialLogo name={item.title} />
         </div>
-        <h3 className="relative font-extrabold text-pink-500">{item.title}</h3>
-        <p className={`relative mt-1 text-xs ${muted}`}>{item.value}</p>
+        <h3 className="relative text-sm font-extrabold text-pink-500 sm:text-base">{item.title}</h3>
+        <p className={`relative mt-1 truncate text-[10px] sm:text-xs ${muted}`}>{item.value}</p>
       </a>
     ))}
 
@@ -1130,15 +1150,15 @@ const certificates = [
         navigator.clipboard.writeText("@2cyi");
         showToast("Discord username copied ✨");
       }}
-      className={`group relative overflow-hidden rounded-3xl border p-6 text-center shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] ${softCard}`}
+      className={`group relative overflow-hidden rounded-3xl border p-4 text-center shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] active:scale-[0.97] sm:p-6 ${softCard}`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-pink-300/20 to-transparent opacity-0 transition group-hover:opacity-100" />
-      <div className="relative mx-auto mb-3 grid h-14 w-14 place-items-center rounded-2xl bg-white text-[0px] shadow-[0_14px_35px_rgba(236,72,153,0.2)] ring-1 ring-pink-200/70 transition duration-300 group-hover:scale-110">
+      <div className="relative mx-auto mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-white text-[0px] shadow-[0_14px_35px_rgba(236,72,153,0.2)] ring-1 ring-pink-200/70 transition duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
         <SocialLogo name="Discord" />
         🎮
       </div>
-      <h3 className="relative font-extrabold text-pink-500">Discord</h3>
-      <p className={`relative mt-1 text-xs ${muted}`}>@2cyi • click to copy</p>
+      <h3 className="relative text-sm font-extrabold text-pink-500 sm:text-base">Discord</h3>
+      <p className={`relative mt-1 text-[10px] sm:text-xs ${muted}`}>@2cyi • click to copy</p>
     </button>
   </div>
 
@@ -1375,14 +1395,17 @@ const certificates = [
   </div>
 )}
 
+<div id="cursorGlow" className="cursor-glow"></div>
+<div id="cursorLove" className="cursor-love"></div>
+
+{/* Scroll to top */}
 <button
   onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-  className="fixed bottom-6 left-6 z-50 grid h-12 w-12 place-items-center rounded-full bg-gradient-to-r from-pink-300 to-pink-500 font-bold text-white shadow-[0_15px_45px_rgba(236,72,153,0.35)] transition hover:-translate-y-1"
+  className="animate-pulse-glow fixed bottom-6 left-6 z-50 grid h-12 w-12 place-items-center rounded-full bg-gradient-to-r from-pink-300 to-pink-500 font-bold text-white shadow-[0_15px_45px_rgba(236,72,153,0.35)] transition hover:-translate-y-1 hover:shadow-[0_20px_55px_rgba(236,72,153,0.5)] active:scale-95"
+  aria-label="Back to top"
 >
   ↑
 </button>
-<div id="cursorGlow" className="cursor-glow"></div>
-<div id="cursorLove" className="cursor-love"></div>
     </div>
     
   );
