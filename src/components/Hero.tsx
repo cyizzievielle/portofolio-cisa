@@ -4,6 +4,7 @@ import { Card } from "./ui/Card";
 import { LiveStatus } from "./ui/LiveStatus";
 import { useLanyard } from "../hooks/useLanyard";
 import { DISCORD_USER_ID } from "../data/socials";
+import { AnimatedStats } from "./ui/AnimatedStats";
 
 const roles = ["Web Developer", "System Builder", "Bot Creator"];
 
@@ -107,21 +108,7 @@ export function Hero() {
           and bot development.
         </p>
 
-        {/* Stats */}
-        <div className="mt-6 flex flex-wrap justify-center gap-6 lg:justify-start">
-          {[
-            ["8+", "Projects"],
-            ["2+", "Years Coding"],
-            ["3+", "Experience"],
-          ].map(([value, label]) => (
-            <div key={label} className="text-center">
-              <p className="text-2xl font-black bg-gradient-to-r from-rose-400 to-violet-500 bg-clip-text text-transparent">
-                {value}
-              </p>
-              <p className={`text-xs font-semibold ${muted}`}>{label}</p>
-            </div>
-          ))}
-        </div>
+        <AnimatedStats />
 
         <div className="mt-7 flex flex-row gap-3 justify-center lg:justify-start">
           <a
