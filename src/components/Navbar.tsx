@@ -10,6 +10,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const navAreaRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
 
   const muted = dark ? "text-rose-200/60" : "text-[#7a6188]";
   const softCard = dark ? "border-violet-300/15 bg-violet-400/8" : "border-rose-200/50 bg-rose-50/60";
@@ -38,19 +39,21 @@ export function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  // Close on outside click
+  // Close on click outside (header nav area only, not the drawer itself)
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-      if (open && navAreaRef.current && !navAreaRef.current.contains(e.target as Node)) {
+      if (
+        open &&
+        navAreaRef.current &&
+        !navAreaRef.current.contains(e.target as Node) &&
+        drawerRef.current &&
+        !drawerRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
   const socialLinks = [
@@ -150,6 +153,7 @@ export function Navbar() {
 
       {/* Drawer Panel */}
       <aside
+        ref={drawerRef}
         className={`fixed right-0 top-0 z-50 flex h-full w-[min(82vw,340px)] flex-col transition-transform duration-300 ease-out lg:hidden ${
           dark ? "bg-[#0c0515]" : "bg-[#fdf8ff]"
         } ${open ? "translate-x-0" : "translate-x-full"}`}

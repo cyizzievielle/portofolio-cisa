@@ -229,6 +229,20 @@ export function PhysicsSkills() {
     };
   }, [dimensions]);
 
+  // Attach non-passive touchmove to prevent page scroll while dragging
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onTouchMove = (e: TouchEvent) => {
+      if (dragIdxRef.current !== null) {
+        e.preventDefault();
+        if (e.touches[0]) handleDrag(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    return () => el.removeEventListener("touchmove", onTouchMove);
+  });
+
   // Handle Dragging Events
   const handleStartDrag = (idx: number, clientX: number, clientY: number) => {
     if (!containerRef.current) return;
@@ -278,12 +292,10 @@ export function PhysicsSkills() {
             ? "border-violet-500/10 bg-violet-950/10"
             : "border-rose-100 bg-rose-50/20"
         }`}
+        style={{ touchAction: "none" }}
         onMouseMove={(e) => handleDrag(e.clientX, e.clientY)}
         onMouseLeave={handleEndDrag}
         onMouseUp={handleEndDrag}
-        onTouchMove={(e) => {
-          if (e.touches[0]) handleDrag(e.touches[0].clientX, e.touches[0].clientY);
-        }}
         onTouchEnd={handleEndDrag}
         onTouchCancel={handleEndDrag}
       >
@@ -294,6 +306,7 @@ export function PhysicsSkills() {
             ref={(el) => { itemElementsRef.current[idx] = el; }}
             onMouseDown={(e) => handleStartDrag(idx, e.clientX, e.clientY)}
             onTouchStart={(e) => {
+              e.stopPropagation();
               if (e.touches[0]) handleStartDrag(idx, e.touches[0].clientX, e.touches[0].clientY);
             }}
             className={`absolute flex items-center gap-2 rounded-2xl border px-3.5 py-2 transition-shadow duration-300 hover:shadow-md cursor-grab active:cursor-grabbing select-none shrink-0 ${softCard}`}
