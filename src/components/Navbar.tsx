@@ -216,7 +216,7 @@ export function Navbar() {
                         : "bg-rose-100/70 text-rose-400"
                     }`}
                   >
-                    <NavBadge label={link} />
+                    <NavBadge label={link} iconOnly />
                   </span>
                   <span className="text-sm">{link}</span>
                   {isActive && (
