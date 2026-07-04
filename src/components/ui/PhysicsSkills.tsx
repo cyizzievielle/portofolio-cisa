@@ -229,19 +229,20 @@ export function PhysicsSkills() {
     };
   }, [dimensions]);
 
-  // Attach non-passive touchmove to prevent page scroll while dragging
+  // Attach non-passive touchmove to prevent page scroll while dragging or touching
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const onTouchMove = (e: TouchEvent) => {
-      if (dragIdxRef.current !== null) {
-        e.preventDefault();
-        if (e.touches[0]) handleDrag(e.touches[0].clientX, e.touches[0].clientY);
+      // Always prevent scroll when touching the physics area
+      e.preventDefault();
+      if (dragIdxRef.current !== null && e.touches[0]) {
+        handleDrag(e.touches[0].clientX, e.touches[0].clientY);
       }
     };
     el.addEventListener("touchmove", onTouchMove, { passive: false });
     return () => el.removeEventListener("touchmove", onTouchMove);
-  });
+  }, []);
 
   // Handle Dragging Events
   const handleStartDrag = (idx: number, clientX: number, clientY: number) => {
@@ -314,6 +315,7 @@ export function PhysicsSkills() {
               left: 0,
               top: 0,
               willChange: "transform",
+              touchAction: "none",
             }}
           >
             <span className="shrink-0 text-lg" style={{ color: skill.color }}>

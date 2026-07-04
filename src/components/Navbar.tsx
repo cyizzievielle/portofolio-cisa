@@ -145,7 +145,7 @@ export function Navbar() {
       {/* ── Mobile Full-Screen Drawer ── */}
       {/* Backdrop */}
       <div
-        onClick={() => setOpen(false)}
+        onPointerDown={() => setOpen(false)}
         className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
@@ -154,6 +154,7 @@ export function Navbar() {
       {/* Drawer Panel */}
       <aside
         ref={drawerRef}
+        onPointerDown={(e) => e.stopPropagation()}
         className={`fixed right-0 top-0 z-50 flex h-full w-[min(82vw,340px)] flex-col transition-transform duration-300 ease-out lg:hidden ${
           dark ? "bg-[#0c0515]" : "bg-[#fdf8ff]"
         } ${open ? "translate-x-0" : "translate-x-full"}`}
@@ -192,7 +193,10 @@ export function Navbar() {
         </div>
 
         {/* Nav Links */}
-        <nav className="mt-4 flex-1 overflow-y-auto px-4 pb-4">
+        <nav
+          className="mt-4 flex-1 overflow-y-auto px-4 pb-4"
+          style={{ WebkitOverflowScrolling: "touch", overscrollBehavior: "contain" }}
+        >
           <p className={`mb-2 px-2 text-[10px] font-black uppercase tracking-widest ${muted}`}>Menu</p>
           <div className="flex flex-col gap-1">
             {navLinks.map((link, i) => {
