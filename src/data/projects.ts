@@ -30,6 +30,7 @@ export const projects: Project[] = [
       "🔐 Role assignment panels, data backups, and custom embed messages"
     ],
     image: "/project/botcyza.png",
+    github: "https://github.com/cyizzievielle/mystralassistant-bot",
     accent: "from-sky-300 via-pink-400 to-fuchsia-500",
   },
   {
