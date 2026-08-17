@@ -25,7 +25,7 @@ function StatCounter({ target, suffix = "", label, duration = 1800 }: StatItem) 
 
 const stats: StatItem[] = [
   { target: 8, suffix: "+", label: "Projects", duration: 1600 },
-  { target: 2, suffix: "+", label: "Years Coding", duration: 1200 },
+  { target: 3, suffix: "+", label: "Years Coding", duration: 1200 },
   { target: 3, suffix: "+", label: "Experience", duration: 1400 },
 ];
 

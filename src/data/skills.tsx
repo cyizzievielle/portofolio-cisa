@@ -1,7 +1,7 @@
 import {
   SiHtml5, SiCss as SiCss3, SiJavascript, SiReact, SiTailwindcss,
   SiPhp, SiLaravel, SiCodeigniter, SiNodedotjs,
-  SiMysql, SiMariadb, SiSqlite,
+  SiMysql, SiMariadb, SiSqlite, SiMongodb,
   SiGithub, SiDiscord,
   SiTypescript, SiNextdotjs, SiAngular, SiVite,
   SiGit, SiFigma, SiPostman, SiDocker, SiNpm,
@@ -72,6 +72,7 @@ export const skillGroups: SkillGroup[] = [
     items: [
       { name: "MySQL", icon: <SiMysql />, color: "#4479A1" },
       { name: "MariaDB", icon: <SiMariadb />, color: "#003545" },
+      { name: "MongoDB", icon: <SiMongodb />, color: "#47A248" },
       { name: "SQLite", icon: <SiSqlite />, color: "#003B57" },
     ],
   },
